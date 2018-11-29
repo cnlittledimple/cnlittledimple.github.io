@@ -298,7 +298,7 @@
 </blockquote>
 <p>如果不进行这一处理，对应<code>entry</code>会被认为是一个空文件，所以打包出来的<code>jar</code>文件会出现下图所示的情况：</p>
 <p><img src="/2018/11/15/Jar文件打包与解压/result-3.png" alt="result"></p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>以上就是对于Jar文件打包和解压的一个总结，中间穿插了部分API使用细节的说明。而Jar其实就是一种特殊的Zip格式压缩文件，所以上述的一些方法经过简单修改就也可以应用在Zip文件的解压的压缩上。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>以上就是对于Jar文件打包和解压的一个总结，中间穿插了部分API使用细节的说明。相关代码也已经上传到了<a href="https://github.com/cnlittledimple/code-examples" target="_blank" rel="noopener">github</a>。Jar其实就是一种特殊的Zip格式压缩文件，所以上述的一些方法经过简单修改就也可以应用在Zip文件的解压的压缩上。</p>
 <p>但这里最后还有一个问题没有弄清楚，就是使用上面的代码解压一个Jar文件后，再将解压出来的文件夹重新打包回Jar的话，得到的Jar文件与原始文件的大小不一样（根据测试原始文件是972字节，而重新打包得到的文件是1.07KB），这里具体的原因后续如果弄清楚了再继续补充吧。</p>
 
       
