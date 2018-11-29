@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="">
+  <head><meta name="generator" content="Hexo 3.8.0">
+    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+<meta name="theme-color" content="#f8f5ec">
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="Jar文件打包与解压">
+
+
+
+
+  <meta name="keywords" content="代码示例, 正则, littleDimple">
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/default" title="littleDimple">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.10.1">
+
+
+
+<link rel="canonical" href="http://cnlittledimple.github.io/2018/11/15/Jar文件打包与解压/">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css">
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/lib/nprogress/nprogress.min.css">
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.10.1">
+
+
+
+  
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":true};
+</script>
+
+    <title> Jar文件打包与解压 - littleDimple </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">littleDimple</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            首页
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            归档
+          
+        </li>
+      </a>
+    
+      <a href="/tags">
+        <li class="mobile-menu-item">
+          
+          
+            标签
+          
+        </li>
+      </a>
+    
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            分类
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            关于
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">littleDimple</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              首页
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              归档
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            
+            
+              标签
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              分类
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              关于
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Jar文件打包与解压
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-11-15
+        </span>
+        
+          <span class="post-category">
+            
+              <a href="/categories/Java/">Java</a>
+            
+          </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#工具"><span class="toc-text">工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解压"><span class="toc-text">解压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打包"><span class="toc-text">打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol>
+    </div>
+  </div>
+
+
+
+    <div class="post-content">
+      
+        <p>今天遇到一个这样的小需求：想要解压某个jar/ear包到指定的文件夹，并且做一些可能的修改后再次打包成一个jar/ear。虽然实现较为简单，但其中也确实遇到了一些小小的问题，所以在这里简单记录一下。</p>
+<a id="more"></a>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p>虽然Java自身提供的API应该也能够实现这样的功能，但是Java的一些原生API使用实在复杂，所以最终使用了一个叫做<code>commons-compress</code>的第三方库，它提供了多种文件格式的压缩/解压方法，官网参见<a href="http://commons.apache.org/proper/commons-compress/" target="_blank" rel="noopener">这里</a>。</p>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>首先看解压吧，实现的接口需要两个输入：jar/ear包路径和解压的目标文件夹路径。具体代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">unpack</span><span class="params">(String src, String dst)</span> <span class="keyword">throws</span> FileNotFoundException, IOException </span>&#123;</span><br><span class="line">    File jarFile = <span class="keyword">new</span> File(src);</span><br><span class="line">    <span class="keyword">if</span> (dst == <span class="keyword">null</span> || dst.isEmpty())</span><br><span class="line">        dst = <span class="keyword">new</span> File(jarFile.getParent(), FilenameUtils.getBaseName(jarFile.getName())).getAbsolutePath();</span><br><span class="line">    dst = dst.endsWith(File.separator) ? dst : dst + File.separator;</span><br><span class="line">    <span class="keyword">try</span> (JarArchiveInputStream jarIn = <span class="keyword">new</span> JarArchiveInputStream(<span class="keyword">new</span> BufferedInputStream(</span><br><span class="line">            <span class="keyword">new</span> FileInputStream(jarFile), BUFFER_SIZE))) &#123;</span><br><span class="line">        JarArchiveEntry entry = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">while</span> ((entry = jarIn.getNextJarEntry()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            System.out.println(entry.getName());</span><br><span class="line">            <span class="comment">// 忽略路径中的..</span></span><br><span class="line">            String name = entry.getName().replaceAll(<span class="string">"\\\\\\.\\.\\\\"</span>, <span class="string">"\\\\"</span>)</span><br><span class="line">                                        .replaceAll(<span class="string">"/\\.\\./"</span>, <span class="string">"/"</span>)</span><br><span class="line">                                        .replaceAll(<span class="string">"^\\.\\./"</span>, <span class="string">""</span>)</span><br><span class="line">                                        .replaceAll(<span class="string">"^\\.\\.\\\\"</span>, <span class="string">""</span>)</span><br><span class="line">                                        .replaceAll(<span class="string">"/\\.\\.$"</span>, <span class="string">""</span>)</span><br><span class="line">                                        .replaceAll(<span class="string">"\\\\\\.\\.$"</span>, <span class="string">""</span>);</span><br><span class="line">            <span class="keyword">if</span> (entry.isDirectory()) &#123;</span><br><span class="line">                File dir = <span class="keyword">new</span> File(dst, name);</span><br><span class="line">                dir.mkdirs();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                File file = <span class="keyword">new</span> File(dst, name);</span><br><span class="line">                File parent = file.getParentFile();</span><br><span class="line">                <span class="keyword">if</span> (!parent.exists())</span><br><span class="line">                    parent.mkdirs();</span><br><span class="line">                <span class="keyword">try</span> (OutputStream os = <span class="keyword">new</span> BufferedOutputStream(<span class="keyword">new</span> FileOutputStream(</span><br><span class="line">                        <span class="keyword">new</span> File(dst, name)), BUFFER_SIZE)) &#123;</span><br><span class="line">                    IOUtils.copy(jarIn, os);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里主要想说一下关于路径中<code>..</code>的处理，经测试WinRAR解压时是会<strong>忽略</strong>路径中的<code>..</code>的，所以代码里使用正则将路径中的<code>..</code>都去掉了。在处理时遇到了一些问题，也就是用<code>String</code>的<code>replaceAll()</code>（后续的<code>replaceAll()</code>都指代<code>String</code>类中的方法）方法替换<code>\</code>的问题。该方法的定义如下:</p>
+<blockquote>
+<p>public String replaceAll(String regex, String replacement)</p>
+</blockquote>
+<p>其中第一个参数是一个字符串，但是该字符串是被解释成正则表达式，所以对于转义字符的处理需要格外注意。例如，如果希望<code>regex</code>能够匹配一个<code>\</code>字符，那么正则表达式就应该是<code>\\</code>，之后再把这个正则表达式转换成<code>String</code>变量就是<code>\\\\</code>（字符串里每一个<code>\</code>字符写成<code>String</code>变量时都需要转义一次）。</p>
+<p>其实该函数的第一个参数之前有所了解，所以遇到的问题主要不在这里，而在于第二个参数。我以为第二个参数就是普通的Java字符串变量，所以如果我希望把原字符串里的<code>\</code>替换成<code>\\</code>的话，就应该像下面这样写：</p>
+<p><code>str.replaceAll(&quot;\\\\&quot;, &quot;\\\\&quot;);</code></p>
+<p>但是，实际测试的话，代码和结果如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    String str = <span class="string">"\\"</span>;</span><br><span class="line">    System.out.println(str);</span><br><span class="line">    System.out.print(str.replaceAll(<span class="string">"\\\\"</span>, <span class="string">"\\\\"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/11/15/Jar文件打包与解压/result-1.png" alt="result"></p>
+<p>从结果可以看到，替换之后的字符串还是<code>\</code>而不是预期的<code>\\</code>，这是为什么呢？我们首先来看一下<code>replaceAll()</code>方法的文档，里面有这样一句话：</p>
+<blockquote>
+<p>Note that backslashes <code>\</code> and dollar signs <code>$</code> in the replacement string may cause the results to be different than if it were being treated as a literal replacement string</p>
+</blockquote>
+<p>也就是说对于<code>replacement</code>参数里的<code>\</code>字符和<code>$</code>字符的解释与普通字符串里的字符有些不同。具体又是有哪些不同呢，继续找下去。<code>replaceAll()</code>方法最后是调用到了<code>java.util.regex.Matcher#replaceAll(String replacement)</code>方法，这个方法的文档里有更详细的说明：</p>
+<blockquote>
+<p>Note that backslashes <code>\</code> and dollar signs <code>$</code> in the replacement string may cause the results to be different than if it were being treated as a literal replacement string. Dollar signs may be treated as references to captured subsequences as described above, and backslashes are used to escape literal characters in the replacement string.</p>
+</blockquote>
+<p>所以，<code>replacement</code>里包含的<code>\</code>字符会被解释成转义字符；而<code>$</code>字符会根据其后面跟着的部分解释成<code>Matcher</code>中匹配的具体的<code>group</code>的值，这一点<code>java.util.regex.Matcher#appendReplacement(StringBuffer sb, String replacement)</code>的文档里给出了一个例子：</p>
+<blockquote>
+<p>If the second group matched the string <code>&quot;foo&quot;</code>, for example, then passing the replacement string <code>&quot;$2bar&quot;</code> would cause <code>&quot;foobar&quot;</code> to be appended to the string buffer</p>
+</blockquote>
+<p>我们接着来看看上面那个代码中的那个例子是怎么回事，我们传入的<code>replacement</code>参数表现上是<code>&quot;\\\\&quot;</code>，那么它解释成字符串后字面量是<code>\\</code>，也就是说<code>replacement</code>变量里实际存储的内容为两个<code>\</code>字符；而<code>replacement</code>在方法中处理时又会把其中的<code>\</code>理解成转义字符，所以在方法里<code>replacement</code>部分就被理解成了<code>\</code>，也就是只有一个<code>\</code>字符；因此，上面的代码实际上做的事情就是把<code>\</code>替换成<code>\</code>。</p>
+<p>基于上面的说明，如果我们想要实现真真希望完成的事情（把<code>\</code>替换成<code>\\</code>），正确的写法应该是下面这样：</p>
+<p><code>str.replaceAll(&quot;\\\\&quot;, &quot;\\\\\\\\&quot;)</code></p>
+<p>其实，在<code>java.util.regex.Matcher</code>类中有提供一个方便的对<code>replacement</code>进行转义的方法——<code>quoteReplacement(String s)</code>。因此，如果需要的话，我们可以在传递<code>replacement</code>参数前使用该转义方法将其进行转义，修改后的代码和结果如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    String str = <span class="string">"\\"</span>, regex = <span class="string">"\\\\"</span>, replacement = <span class="string">"\\\\"</span>;</span><br><span class="line">    System.out.println(str);</span><br><span class="line">    replacement = Matcher.quoteReplacement(replacement);</span><br><span class="line">    System.out.print(str.replaceAll(regex, replacement));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/11/15/Jar文件打包与解压/result-2.png" alt="result"></p>
+<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><p>接着看打包的过程，实现的接口也是接收两个参数：待压缩的文件夹路径和输出的压缩文件的路径。具体代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">pack</span><span class="params">(String src, String dst)</span> <span class="keyword">throws</span> FileNotFoundException, IOException </span>&#123;</span><br><span class="line">    File srcFile = <span class="keyword">new</span> File(src);</span><br><span class="line">    <span class="keyword">if</span> (!srcFile.exists()) &#123;</span><br><span class="line">        System.err.println(<span class="string">"file "</span> + src + <span class="string">" does not exist"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!srcFile.isDirectory()) &#123;</span><br><span class="line">        System.err.println(<span class="string">"file "</span> + src + <span class="string">" is not a directory"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    String pathPrefix = srcFile.getAbsolutePath();</span><br><span class="line">    pathPrefix = pathPrefix.endsWith(File.separator) ? pathPrefix : pathPrefix + File.separator;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (dst == <span class="keyword">null</span> || dst.isEmpty())</span><br><span class="line">        dst = srcFile.getName() + <span class="string">".jar"</span>;</span><br><span class="line">    </span><br><span class="line">    File dstFile = <span class="keyword">new</span> File(dst);</span><br><span class="line">    System.out.println(dstFile.getAbsolutePath());</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">try</span> (JarArchiveOutputStream jarOut = <span class="keyword">new</span> JarArchiveOutputStream(<span class="keyword">new</span> BufferedOutputStream(</span><br><span class="line">            <span class="keyword">new</span> FileOutputStream(dstFile), BUFFER_SIZE))) &#123;</span><br><span class="line">        List&lt;String&gt; filePaths = getAllFilePaths(src);</span><br><span class="line">        <span class="keyword">for</span> (String filePath : filePaths) &#123;</span><br><span class="line">            JarArchiveEntry entry = <span class="keyword">new</span> JarArchiveEntry(filePath.replace(pathPrefix, <span class="string">""</span>));</span><br><span class="line">            jarOut.putArchiveEntry(entry);</span><br><span class="line">            File file = <span class="keyword">new</span> File(filePath);</span><br><span class="line">            <span class="keyword">if</span> (file.isDirectory()) &#123;</span><br><span class="line">                jarOut.closeArchiveEntry();</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> (InputStream is = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(file), BUFFER_SIZE)) &#123;</span><br><span class="line">                IOUtils.copy(is, jarOut);</span><br><span class="line">            &#125;</span><br><span class="line">            jarOut.closeArchiveEntry();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;String&gt; <span class="title">getAllFilePaths</span><span class="params">(String path)</span> </span>&#123;</span><br><span class="line">    List&lt;String&gt; filePaths = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    File file = <span class="keyword">new</span> File(path);</span><br><span class="line">    <span class="keyword">if</span> (file.exists()) &#123;</span><br><span class="line">        <span class="keyword">for</span> (File f : file.listFiles()) &#123;</span><br><span class="line">            String subPath = f.getAbsolutePath();</span><br><span class="line">            <span class="keyword">if</span> (f.isDirectory()) &#123;</span><br><span class="line">                filePaths.add(subPath.endsWith(<span class="string">"/"</span>) ? subPath : subPath + <span class="string">"/"</span>);</span><br><span class="line">                filePaths.addAll(getAllFilePaths(subPath));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> </span><br><span class="line">                filePaths.add(subPath);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> filePaths;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现的逻辑就是首先获取到这个文件夹下的所有文件以及文件夹的路径，然后每一个路径就对应于压缩包里的一个<code>entry</code>，依次进行添加即可。如果是文件的话，还需要将文件内容读取出来写入到最终的压缩包中。</p>
+<p>这里想要强调的点是创建<code>JarArchiveEntry</code>对象时，如果是文件夹的话，传入的<code>name</code>参数需要以<code>/</code>结尾，因为库中的代码是以此为标准判断是否是文件夹的，相关文档如下：</p>
+<blockquote>
+<p>Assumes the entry represents a directory if and only if the name ends with a forward slash <code>&quot;/&quot;</code>.</p>
+</blockquote>
+<p>如果不进行这一处理，对应<code>entry</code>会被认为是一个空文件，所以打包出来的<code>jar</code>文件会出现下图所示的情况：</p>
+<p><img src="/2018/11/15/Jar文件打包与解压/result-3.png" alt="result"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>以上就是对于Jar文件打包和解压的一个总结，中间穿插了部分API使用细节的说明。而Jar其实就是一种特殊的Zip格式压缩文件，所以上述的一些方法经过简单修改就也可以应用在Zip文件的解压的压缩上。</p>
+<p>但这里最后还有一个问题没有弄清楚，就是使用上面的代码解压一个Jar文件后，再将解压出来的文件夹重新打包回Jar的话，得到的Jar文件与原始文件的大小不一样（根据测试原始文件是972字节，而重新打包得到的文件是1.07KB），这里具体的原因后续如果弄清楚了再继续补充吧。</p>
+
+      
+    </div>
+
+    
+      
+      
+
+  <div class="post-copyright">
+    <p class="copyright-item">
+      <span>原文作者: </span>
+      <a href="http://cnlittledimple.github.io/about">littleDimple</a>
+    </p>
+    <p class="copyright-item">
+      <span>原文链接: </span>
+      <a href="http://cnlittledimple.github.io/2018/11/15/Jar文件打包与解压/">http://cnlittledimple.github.io/2018/11/15/Jar文件打包与解压/</a>
+    </p>
+    <p class="copyright-item">
+      <span>许可协议: </span>
+      
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/代码示例/">代码示例</a>
+            
+              <a href="/tags/正则/">正则</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+    
+      <a class="next" href="/2018/11/05/hello-world/">
+        <span class="next-text nav-default">Hello World</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+  <div class="social-links">
+    
+      
+        
+          <a href="mailto:xjw1412@163.com" class="iconfont icon-email" title="email"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        
+          <a href="https://github.com/cnlittledimple" class="iconfont icon-github" title="github"></a>
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    
+      
+      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    
+  </div>
+
+
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    
+    &copy; 
+    
+    2018
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">littleDimple</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+  
+
+  
+
+
+
+    
+  
+
+
+
+  
+  
+
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/pjax/jquery.pjax.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/nprogress/nprogress.min.js"></script>
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.10.1"></script>
+
+  </body>
+</html>
